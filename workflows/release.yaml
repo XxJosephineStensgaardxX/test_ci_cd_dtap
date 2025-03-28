@@ -1,12 +1,11 @@
 name: Release and Publish Package
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [created]
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
