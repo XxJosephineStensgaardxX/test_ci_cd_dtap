@@ -1,33 +1,12 @@
-name: DTAP Pipeline
+name: Production Deployment
 
 on:
   push:
     branches:
-      - feature-*
-      - development
-      - acceptance
       - main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 11
-        uses: actions/setup-java@v4
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-
-      - name: Build and Test with Maven
-        run: mvn clean test
-
-  deploy:
-    needs: test
-    if: github.ref == 'refs/heads/main'
+  deploy-to-production:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -44,11 +23,17 @@ jobs:
           distribution: 'temurin'
           server-id: github
           settings-path: ${{ github.workspace }}
+          cache: 'maven'
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
       - name: Publish to GitHub Packages
-        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+        run: mvn deploy -s ${{ github.workspace }}/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to Production
+        run: |
+          echo "Deploying to Production Environment..."
+          # Add your production deployment commands here

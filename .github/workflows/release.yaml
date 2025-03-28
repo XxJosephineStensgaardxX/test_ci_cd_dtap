@@ -1,11 +1,12 @@
-name: Release and Publish Package
+name: Release Pipeline
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - release
 
 jobs:
-  build:
+  release-and-publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,11 +23,12 @@ jobs:
           distribution: 'temurin'
           server-id: github
           settings-path: ${{ github.workspace }}
+          cache: 'maven'
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
       - name: Publish to GitHub Packages
-        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+        run: mvn deploy -s ${{ github.workspace }}/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

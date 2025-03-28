@@ -3,10 +3,10 @@ name: Acceptance Deployment
 on:
   push:
     branches:
-      - acceptance
+      - testing
 
 jobs:
-  deploy:
+  deploy-to-acceptance:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,8 +18,9 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+          cache: 'maven'
 
-      - name: Deploy to Acceptance
+      - name: Deploy to Acceptance Environment
         run: |
           echo "Deploying to Acceptance Environment..."
           mvn deploy -Denv=acceptance
