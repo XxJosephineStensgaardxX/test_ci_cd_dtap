@@ -1,4 +1,4 @@
-package com.example;
+package main.java.com.example;
 
 public class Multiplier {
     public int multiply(int a, int b) {
