@@ -57,8 +57,7 @@
     <distributionManagement>
         <repository>
             <id>github</id>
-            <url>https://maven.pkg.github.com/YOUR_GITHUB_USERNAME/YOUR_REPO</url>
+            <url>https://maven.pkg.github.com/XxJosephineStensgaard/test_ci_cd_dtap</url>
         </repository>
     </distributionManagement>
-
 </project>
