@@ -13,6 +13,7 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK 11
         uses: actions/setup-java@v4
         with:
@@ -20,14 +21,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
           server-id: github
-          settings-path: ${{ github.workspace }}
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
       - name: Build with Maven
         run: mvn -B clean package
+
       - name: Publish to GitHub Packages
-        run: mvn deploy -s ${{ github.workspace }}/settings.xml
+        run: mvn deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Simulate production deployment
-        run: |
-          echo "Deploying to PRODUCTION environment"
-          echo "Deployment successful!"
