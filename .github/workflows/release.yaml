@@ -1,4 +1,4 @@
-name: Release Pipeline
+name: Release Preparation
 
 on:
   push:
@@ -6,29 +6,29 @@ on:
       - release
 
 jobs:
-  release-and-publish:
+  prepare-release:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Set up JDK 11
         uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'temurin'
+          cache: maven
           server-id: github
           settings-path: ${{ github.workspace }}
-          cache: 'maven'
-
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
+        run: mvn -B clean package
       - name: Publish to GitHub Packages
         run: mvn deploy -s ${{ github.workspace }}/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-build
+          path: target/*.jar

@@ -11,29 +11,23 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Set up JDK 11
         uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'temurin'
+          cache: maven
           server-id: github
           settings-path: ${{ github.workspace }}
-          cache: 'maven'
-
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
+        run: mvn -B clean package
       - name: Publish to GitHub Packages
         run: mvn deploy -s ${{ github.workspace }}/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Deploy to Production
+      - name: Simulate production deployment
         run: |
-          echo "Deploying to Production Environment..."
-          # Add your production deployment commands here
+          echo "Deploying to PRODUCTION environment"
+          echo "Deployment successful!"
