@@ -1,4 +1,4 @@
-package com.example;
+package main.java.com.example;
 
 /**
  * Simple calculator application
