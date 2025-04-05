@@ -3,7 +3,7 @@ package main.java.com.example;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MultiplierTest {
+class ultiplierTest {
 
     @Test
     void testMultiplication() {
