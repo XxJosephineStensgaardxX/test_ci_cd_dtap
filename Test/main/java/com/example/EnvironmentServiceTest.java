@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EnvironmentServiceTest {
+public class nvironmentServiceTest {
     @Test
     public void testDevelopmentEnvironment() {
         EnvironmentService service = new EnvironmentService("development");
