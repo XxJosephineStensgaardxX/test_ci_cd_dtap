@@ -25,7 +25,26 @@ jobs:
         with:
           name: test-build
           path: target/*.jar
+      - name: Create Test Release
+        id: create_test_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: target/calculator-*-jar-with-dependencies.jar
+          tag_name: test-v${{ github.run_number }}
+          name: Test Release v${{ github.run_number }}
+          draft: false
+          prerelease: true
+          body: |
+            Test environment build for the Calculator app.
+            
+            To run:
+            
+            java -jar calculator-*-jar-with-dependencies.jar
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Simulate test deployment
         run: |
           echo "Deploying to TEST environment"
+          echo "Executable JAR created and published as a GitHub Pre-Release"
           echo "Deployment successful!"
