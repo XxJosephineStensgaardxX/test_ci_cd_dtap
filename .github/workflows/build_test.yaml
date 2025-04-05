@@ -25,3 +25,8 @@ jobs:
         with:
           name: development-build
           path: target/*.jar
+      - name: Simulate development deployment
+        run: |
+          echo "Deploying to DEVELOPMENT environment"
+          echo "Executable JAR created for development testing"
+          echo "Deployment successful!"
